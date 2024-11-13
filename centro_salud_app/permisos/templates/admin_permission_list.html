@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Solicitudes de Permiso Administrativo{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Listado de Solicitudes de Permiso Administrativo</h2>
+    <form class="search-form" method="GET" action="{% url 'admin_permission_list' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nombre o RUT">
+        <button type="submit">Buscar</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>RUT</th>
+                <th>Fecha Desde</th>
+                <th>Fecha Hasta</th>
+                <th>Jornada</th>
+                <th>Acciones</th>
+                <th>Descargas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for permission in admin_permissions %}
+            <tr>
+                <td data-label="Nombre">{{ permission.full_name }}</td>
+                <td data-label="RUT">{{ permission.rut }}</td>
+                <td data-label="Fecha Desde">{{ permission.date_from }}</td>
+                <td data-label="Fecha Hasta">{{ permission.date_to }}</td>
+                <td data-label="Jornada">{{ permission.jornada }}</td>
+                <td data-label="Acciones"><a href="{% url 'admin_permission_admin_detail' permission.id %}">Autorizar/Editar</a></td>
+                <td data-label="Descargas"><a href="{% url 'generate_permission_pdf' permission.id %}">Descargar PDF</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No se encontraron solicitudes de permisos administrativos.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

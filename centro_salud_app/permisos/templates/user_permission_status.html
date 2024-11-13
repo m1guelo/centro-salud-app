@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Estado de Mis Solicitudes{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Estado de Mis Solicitudes</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>RUT</th>
+                <th>Tipo de Solicitud</th>
+                <th>Fecha Desde</th>
+                <th>Fecha Hasta</th>
+                <th>Estado</th>
+                <th>Descargas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for permission in permissions %}
+            <tr>
+                <td>{{ permission.full_name }}</td>
+                <td>{{ permission.rut }}</td>
+                <td>
+                    {% if permission.request_type %}
+                        {{ permission.get_request_type_display }}
+                    {% elif permission.jornada %}
+                        Permiso Administrativo
+                    {% elif permission.number_of_hours %}
+                        Compensación de Tiempo
+                    {% else %}
+                        No especificado
+                    {% endif %}
+                </td>
+                <td>{{ permission.date_from }}</td>
+                <td>{{ permission.date_to }}</td>
+                <td class="status-{{ permission.estado|lower }}">
+                    {{ permission.estado|title }}
+                </td>
+                <td class="download-link">
+                    <a href="{% url 'generate_user_permission_pdf' permission.id %}">Descargar PDF</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No hay solicitudes registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

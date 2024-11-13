@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Listado de Solicitudes de Compensación de Tiempo{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Listado de Solicitudes de Compensación de Tiempo</h2>
+    <form class="search-form" method="GET" action="{% url 'compensation_request_list' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Buscar por nombre o RUT">
+        <button type="submit">Buscar</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>RUT</th>
+                <th>Fecha Desde</th>
+                <th>Fecha Hasta</th>
+                <th>Horas</th>
+                <th>Acciones</th>
+                <th>Descargas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in compensation_requests %}
+            <tr>
+                <td data-label="Nombre">{{ request.full_name }}</td>
+                <td data-label="RUT">{{ request.rut }}</td>
+                <td data-label="Fecha Desde">{{ request.date_from }}</td>
+                <td data-label="Fecha Hasta">{{ request.date_to }}</td>
+                <td data-label="Horas">{{ request.number_of_hours }}</td>
+                <td data-label="Acciones"><a href="{% url 'compensation_request_detail' request.id %}">Ver/Editar</a></td>
+                <td data-label="Descargas"><a href="{% url 'generate_permission_pdf' request.id %}">Descargar PDF</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">No se encontraron solicitudes de compensación de tiempo.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

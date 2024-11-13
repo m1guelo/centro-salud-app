@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Solicitud de Compensación de Tiempo{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Solicitud de Compensación de Tiempo</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar Solicitud</button>
+    </form>
+</div>
+{% endblock %}
+

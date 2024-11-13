@@ -1,0 +1,29 @@
+<!-- permission_pdf_template.html -->
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h2 { text-align: center; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table th, .table td { border: 1px solid black; padding: 8px; text-align: left; }
+        .table th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Solicitud de Permiso</h2>
+    <p><strong>Nombre:</strong> {{ permission.full_name }}</p>
+    <p><strong>RUT:</strong> {{ permission.rut }}</p>
+    <p><strong>Cargo:</strong> {{ permission.position }}</p>
+    <p><strong>Establecimiento:</strong> {{ permission.establishment }}</p>
+    <p><strong>Fecha Desde:</strong> {{ permission.date_from }}</p>
+    <p><strong>Fecha Hasta:</strong> {{ permission.date_to }}</p>
+    <p><strong>Número de Días:</strong> {{ permission.number_of_days }}</p>
+    <p><strong>Periodo:</strong> {{ permission.period }}</p>
+    <p><strong>Estado:</strong> {{ permission.get_estado_display }}</p>
+
+    
+    {% if permission.firma_funcionario %}
+        <p><strong>Firma:</strong> <img src="{{ permission.firma_funcionario.url }}" alt="Firma" width="200"></p>
+    {% endif %}
+</body>
+</html>
